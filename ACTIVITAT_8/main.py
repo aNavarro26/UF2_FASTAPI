@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Response
 
 app = FastAPI()
 
@@ -7,8 +7,8 @@ items = {"foo": "The Foo Wrestlers"}
 
 
 @app.get("/items/{item_id}")
-async def read_item(item_id: str):
+async def read_item(item_id: str, response: Response):
     if item_id not in items:
-        # excepció per a quan no es troba
-        raise HTTPException(status_code=404, detail="Item not found")
+        response.status_code = 404
+        return {"detail": "Item not found"}
     return {"item": items[item_id]}
