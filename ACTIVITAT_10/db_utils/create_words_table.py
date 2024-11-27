@@ -1,4 +1,5 @@
-from db_connect.db_connect import create_connection
+# from db_connect.db_connect import create_connection
+from ACTIVITAT_10.db_connect.db_connect import create_connection
 
 
 def create_table():
@@ -30,7 +31,7 @@ def insert_record(dict_list):
     query = "INSERT INTO words(word, theme) VALUES (%s, %s)"
 
     for item in dict_list:
-        cursor.execute(query, (item["word"], item["theme"]))
+        cursor.execute(query, (item["WORD"], item["THEME"]))
 
     connection.commit()
 
