@@ -12,7 +12,7 @@
 
 ![Resultat Options](./images/response_options.png)
 
-## Resposta de Paraula random probada amb Swagger
+## Resposta de Paraula random provada amb Swagger
 
 ![Resultat Random Word](./images/response_word.png)
 
