@@ -1,4 +1,5 @@
 from ACTIVITAT_10.db_connect.db_connect import create_connection
+from ACTIVITAT_10.schemas.tematics_sheme import tematics_schema
 
 
 def get_all_tematics():
@@ -10,14 +11,8 @@ def get_all_tematics():
         cursor.execute(query)
         results = cursor.fetchall()
 
-        tematics = []
-
-        for row in results:
-            tematics.append(
-                {"option": row[0]}
-            )  # ho afegeixo per a que sigui una llista de diccionaris
-
-        return tematics
+        # ja no em fa falta fer el for per transformar els resultats
+        return tematics_schema(results)
 
     except Exception as e:
         print(f"Error al obtenir les tematiques: {e}")
@@ -32,11 +27,12 @@ def get_random_word(tematica: str):
     cursor = connection.cursor()
 
     try:
-        query = "SELECT word, FROM words WHERE theme = %s ORDER BY RANDOM() LIMIT 1"
+        # agafa de manera random una paraula
+        query = "SELECT word FROM words WHERE theme = %s ORDER BY RANDOM() LIMIT 1"
 
         cursor.execute(query, (tematica,))
 
-        result = cursor.fetchone
+        result = cursor.fetchone()
 
         if result:
             return {"word": result[0]}  # si ha trobat que ho retorni en format objecte
