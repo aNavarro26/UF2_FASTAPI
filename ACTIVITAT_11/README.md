@@ -12,14 +12,24 @@
 
 ## Endpoints amb Swagger
 
-### /penjat/start-game
+### GET /penjat/start-game
+
+#### Aquest endpoint serveix per a l'endpoint 1 i 2 demanats ja que retorna el mateix text recollint-lo de la base de dades
 
 ![Resultat](./images/start_game.png)
 
-### /penjat/attempts/1
+### GET /penjat/attempts/1
 
 ![Resultat](./images/log_id.png)
 
-### /penjat/start-game
+### POST /penjat/attempts
 
-![Resultat](./images/start_game.png)
+![Resultat](./images/post_attempts.png)
+
+### GET /penjat/alphabet/{lang}
+
+![Resultat](./images/alphabet.png)
+
+### GET /penjat/player/{player_id}
+
+![Resultat](./images/player_record.png)

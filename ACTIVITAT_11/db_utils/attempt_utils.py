@@ -2,7 +2,7 @@ from ACTIVITAT_11.db_connect.db_connect import create_connection
 from ACTIVITAT_11.schemes.attempt import Attempt
 
 
-# Obtenir el número d'intents
+# Obtenir el número d'errors
 def get_total_errors_from_db(log_id: int):
     connection = create_connection()
     cursor = connection.cursor()
