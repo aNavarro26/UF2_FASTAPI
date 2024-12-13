@@ -9,6 +9,7 @@ def get_total_errors_from_db(log_id: int):
 
     query = "SELECT COUNT(*) FROM ATTEMPT WHERE log_id = %s AND is_correct = FALSE;"
     cursor.execute(query, (log_id,))
+    # agafo l'únic valor que ve
     total_errors = cursor.fetchone()[0]
 
     cursor.close()

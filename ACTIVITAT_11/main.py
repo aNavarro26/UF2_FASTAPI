@@ -40,12 +40,15 @@ async def get_alphabet(lang: str):
     return alphabet
 
 
-""" @app.get("/penjat/player/{player_id}", response_model=List[dict])
+""" 
+Amb Schema
+@app.get("/penjat/player/{player_id}", response_model=List[dict])
 async def get_player_info(player_id: int):
     stats = get_player_stats(player_id)
     return player_stats_list_schema(stats) """
 
 
+# Estadístiques Jugador
 @app.get("/penjat/player/{player_id}", response_model=PlayerStats)
 async def get_player_info(player_id: int):
     stats = get_player_stats(player_id)
