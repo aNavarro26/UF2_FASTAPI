@@ -1,33 +1,29 @@
 from ACTIVITAT_11.db_connect.db_connect import create_connection
+from ACTIVITAT_11.schemes.player_logId import player_stats_schema
 
 
-def get_player_stats(player_id: int):
+def get_player_stats(log_id: int):
     connection = create_connection()
     cursor = connection.cursor()
 
     query = """
     SELECT usuari.name, 
-           log_record.total_games, 
-           log_record.games_won, 
-           log_record.best_game, 
-           log_record.ppa
+        log_record.ppa, 
+        log_record.total_games, 
+        log_record.games_won, 
+        log_record.best_game_date,
+        log_record.best_game_points
     FROM usuari 
     JOIN log_record ON usuari.id = log_record.user_id
-    WHERE usuari.id = %s;
+    WHERE log_record.log_id = %s;
     """
 
-    cursor.execute(query, (player_id,))
+    cursor.execute(query, (log_id,))
     result = cursor.fetchone()
 
     cursor.close()
     connection.close()
 
     if result:
-        return {
-            "player_name": result[0],
-            "total_games": result[1],
-            "games_won": result[2],
-            "best_game": result[3],
-            "best_game_points": result[4],
-        }
+        return player_stats_schema(result)
     return None

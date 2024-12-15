@@ -18,6 +18,13 @@
 
 #### Amb el is_correct podem després treure els errors que ha fet en la partida corresponent.
 
+### Taula Log_Record
+#### He afegit el camp "best_game_points" i he modificat el nom del camp "best_game" a "best_game_date":
+
+![Resultat](./images/new_field.png)
+
+### Ho he modificat ja que abans tenía només la data al camp, no guardaba els millors punts que habia aconseguit en la partida
+
 ## Endpoints amb Swagger
 
 ### GET /penjat/start-game
@@ -38,6 +45,6 @@
 #### Agafar l'abecedari corresponent
 ![Resultat](./images/alphabet.png)
 
-### GET /penjat/player/{player_id}
+### GET /penjat/game/{log_id}
 #### Agafar les estadístiques del jugador
 ![Resultat](./images/player_record.png)

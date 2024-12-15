@@ -1,26 +1,15 @@
-from pydantic import BaseModel
-from typing import Optional
-from datetime import datetime
+from typing import List
 
 
-class PlayerStats(BaseModel):
-    player_name: str
-    total_games: int
-    games_won: int
-    best_game: Optional[datetime]
-    best_game_points: int
-
-
-""" def player_stats_schema(player: tuple) -> dict:
+def player_stats_schema(record: tuple) -> dict:
     return {
-        "player_name": player[0],
-        "total_games": player[1],
-        "games_won": player[2],
-        "best_game": player[3],
-        "best_game_points": player[4],
+        "player_name": record[0],
+        "ppa": record[1],
+        "total_games": record[2],
+        "games_won": record[3],
+        "best_game": f"{record[4]} - {record[5]} points",
     }
 
 
-def player_stats_list_schema(players: List[tuple]) -> List[dict]:
-    return [player_stats_schema(player) for player in players]
-"""
+def player_stats_list_schema(records: List[tuple]) -> List[dict]:
+    return [player_stats_schema(record) for record in records]
