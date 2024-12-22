@@ -1,5 +1,5 @@
 from ACTIVITAT_12.db_connect.db_connect import create_connection
-from ACTIVITAT_12.schemes.alphabet_schema import letters_schema, letter_schema
+from ACTIVITAT_12.schemes.alphabet_schema import alphabet_schema, alphabets_schema
 
 
 # Obtenir tots els registres de alphabet
@@ -10,7 +10,9 @@ def get_all_alphabets():
         query = "SELECT id, letter, lang FROM alphabet ORDER BY id ASC;"
         cursor.execute(query)
         results = cursor.fetchall()
-        return letters_schema(results)
+        if results:
+            return alphabets_schema(results)
+        return None
     except Exception as e:
         print(f"Error: {e}")
         return None
@@ -24,11 +26,11 @@ def get_alphabet_by_lang(lang: str):
     connection = create_connection()
     try:
         cursor = connection.cursor()
-        query = "SELECT letter, lang FROM alphabet WHERE lang = %s;"
+        query = "SELECT id, letter, lang FROM alphabet WHERE LOWER(TRIM(lang)) = LOWER(TRIM(%s));"
         cursor.execute(query, (lang,))
         result = cursor.fetchone()
         if result:
-            return letter_schema(result)
+            return alphabet_schema(result)
         return None
     except Exception as e:
         print(f"Error: {e}")
@@ -38,15 +40,22 @@ def get_alphabet_by_lang(lang: str):
         connection.close()
 
 
+# Crear un nou alphabet
 def create_alphabet(alphabet: dict):
     connection = create_connection()
     try:
         cursor = connection.cursor()
         query = "INSERT INTO alphabet (letter, lang) VALUES (%s, %s) RETURNING id;"  # per no fer un altre consulta i així retornar l'id
         cursor.execute(query, (alphabet["letter"], alphabet["lang"]))
-        new_id = cursor.fetchone()[0]
+        new_id = cursor.fetchone()
         connection.commit()
-        return {"id": new_id, "letter": alphabet["letter"], "lang": alphabet["lang"]}
+        if new_id:
+            return {
+                "id": new_id[0],
+                "letter": alphabet["letter"],
+                "lang": alphabet["lang"],
+            }
+        return None
     except Exception as e:
         print(f"Error: {e}")
         return None
@@ -55,6 +64,7 @@ def create_alphabet(alphabet: dict):
         connection.close()
 
 
+# Actualitzar un alphabet
 def update_alphabet(lang: str, alphabet: dict):
     connection = create_connection()
     try:
@@ -62,7 +72,9 @@ def update_alphabet(lang: str, alphabet: dict):
         query = "UPDATE alphabet SET letter = %s WHERE lang = %s;"
         cursor.execute(query, (alphabet["letter"], lang))
         connection.commit()
-        return {"lang": lang, "letter": alphabet["letter"]}
+        if cursor.rowcount > 0:  # si ha sigut modificat
+            return {"lang": lang, "letter": alphabet["letter"]}
+        return None
     except Exception as e:
         print(f"Error: {e}")
         return None
@@ -71,6 +83,7 @@ def update_alphabet(lang: str, alphabet: dict):
         connection.close()
 
 
+# Eliminar un alphabet
 def delete_alphabet(lang: str):
     connection = create_connection()
     try:
@@ -78,7 +91,9 @@ def delete_alphabet(lang: str):
         query = "DELETE FROM alphabet WHERE lang = %s;"
         cursor.execute(query, (lang,))
         connection.commit()
-        return {"message": f"Alphabet with lang '{lang}' has been deleted"}
+        if cursor.rowcount > 0:
+            return {"message": f"Alphabet with lang '{lang}' has been deleted"}
+        return None
     except Exception as e:
         print(f"Error: {e}")
         return None

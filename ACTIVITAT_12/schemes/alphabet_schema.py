@@ -1,9 +1,13 @@
 from typing import List
 
 
-def letter_schema(letter: tuple) -> dict:
-    return {"letter": letter[0]}
+def alphabet_schema(alphabet: tuple) -> dict:
+    return {
+        "id": alphabet[0],
+        "letter": alphabet[1],
+        "lang": alphabet[2],
+    }
 
 
-def letters_schema(letters: List[tuple]) -> List[dict]:
-    return [letter_schema(letter) for letter in letters]
+def alphabets_schema(alphabets: List[tuple]) -> List[dict]:
+    return [alphabet_schema(alphabet) for alphabet in alphabets]
